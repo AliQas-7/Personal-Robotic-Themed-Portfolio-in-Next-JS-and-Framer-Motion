@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-neon-blue: #00f2ff;
+  --color-neon-purple: #bc13fe;
+  --color-neon-cyan: #00ffff;
+  --color-neon-green: #39ff14;
+  --color-dark-bg: #050505;
+  --color-card-bg: rgba(15, 15, 25, 0.7);
+}
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-white font-sans selection:bg-neon-blue/30 selection:text-neon-blue;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-card-bg backdrop-blur-xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)];
+  }
+
+  .neon-border {
+    @apply border border-neon-blue/50 shadow-[0_0_10px_rgba(0,242,255,0.3)];
+  }
+
+  .neon-text-blue {
+    @apply text-neon-blue drop-shadow-[0_0_5px_rgba(0,242,255,0.5)];
+  }
+
+  .neon-text-purple {
+    @apply text-neon-purple drop-shadow-[0_0_5px_rgba(188,19,254,0.5)];
+  }
+
+  .grid-pattern {
+    background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .scanline {
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+    background: linear-gradient(0deg, rgba(0, 242, 255, 0) 0%, rgba(0, 242, 255, 0.05) 50%, rgba(0, 242, 255, 0) 100%);
+    opacity: 0.1;
+    position: absolute;
+    bottom: 100%;
+    animation: scanline 8s linear infinite;
+  }
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  100% { bottom: -100px; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neon-blue/20 rounded-full hover:bg-neon-blue/40 transition-colors;
+}
