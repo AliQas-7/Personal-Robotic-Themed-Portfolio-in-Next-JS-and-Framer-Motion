@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { User, Activity, Globe, Code } from 'lucide-react';
 import { cn } from '../lib/utils';
+import profileImg from './profile.png';
 
 const stats = [
   { label: 'Automation Efficiency', value: '80%', icon: Activity, color: 'text-neon-blue' },
@@ -62,7 +63,7 @@ export const About: React.FC = () => {
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute inset-4 rounded-full overflow-hidden border-2 border-neon-cyan/20"
                 >
-                  <img src="resources/profile.png" alt="Ali Qais" className="w-full h-full object-cover" />
+                <img src={profileImg} alt="Ali Qais" className="w-full h-full object-cover" />
                   {/* Scanning line */}
                   <motion.div
                     animate={{ y: [-32, 32, -32] }}
