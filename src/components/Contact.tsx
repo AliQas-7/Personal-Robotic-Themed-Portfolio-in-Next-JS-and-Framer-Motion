@@ -10,9 +10,9 @@ export const Contact: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // ✅ ENV VARIABLES
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
+  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
 
   // Initialize EmailJS (only once)
   React.useEffect(() => {
@@ -46,6 +46,11 @@ export const Contact: React.FC = () => {
     } catch (error) {
       console.error('Failed to send email:', error);
       setErrorMessage('Failed to send message. Please try again.');
+      
+      // Auto-dismiss error after 5 seconds
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     } finally {
       setIsLoading(false);
     }
@@ -245,15 +250,26 @@ export const Contact: React.FC = () => {
         </AnimatePresence>
 
         {/* Error message display */}
-        {errorMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="fixed top-8 right-8 glass p-4 rounded-xl border border-neon-red/50 max-w-sm"
-          >
-            <p className="text-neon-red text-sm font-mono">{errorMessage}</p>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="fixed top-8 right-8 glass p-4 rounded-xl border border-neon-red/50 max-w-sm z-50"
+            >
+              <div className="flex items-start gap-3">
+                <p className="text-neon-red text-sm font-mono flex-1">{errorMessage}</p>
+                <button
+                  onClick={() => setErrorMessage(null)}
+                  className="text-white/60 hover:text-white transition-colors flex-shrink-0"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
